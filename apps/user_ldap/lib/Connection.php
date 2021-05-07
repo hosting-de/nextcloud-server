@@ -616,6 +616,10 @@ class Connection extends LDAPUtility {
 
 		$this->ldapConnectionRes = $this->ldap->connect($host, $port);
 
+		if (!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_NETWORK_TIMEOUT, 10)) {
+			throw new ServerNotAvailableException('Could not set LDAP network timeout.');
+		}
+		
 		if (!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 			throw new ServerNotAvailableException('Could not set required LDAP Protocol version.');
 		}
